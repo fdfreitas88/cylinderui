@@ -1,0 +1,31 @@
+# =============================================================================
+# CylinderUI for Llama.cpp - Python dependencies (AGENT: native-agent-v2)
+# -----------------------------------------------------------------------------
+# EXAMPLE / ADJUSTABLE. These are the *probable* libraries the FastAPI agent
+# (native-agent-v2) needs. The agent is NOT in the public repo yet -- when you
+# drop it into agent/ (or native-agent-v2/), replace this file with the one it
+# ships, or pin exact versions to match its code.
+#
+# The ROUTER (prompt-router) uses only the Python standard library and needs
+# NONE of the packages below. If you are running the router alone, the venv can
+# stay empty.
+# =============================================================================
+
+# --- Web framework / ASGI server (agent core) ---
+fastapi>=0.110,<1.0
+uvicorn[standard]>=0.29,<1.0
+
+# --- HTTP client used to proxy to llama-swap / providers ---
+httpx>=0.27,<1.0
+
+# --- Multipart form parsing (file uploads: RAG / Model Store) ---
+python-multipart>=0.0.9
+
+# --- Data validation (pulled in by FastAPI, pinned for clarity) ---
+pydantic>=2.6,<3.0
+
+# --- Optional: RAG / knowledge features (uncomment if the agent uses them) ---
+# numpy>=1.26
+# sentence-transformers>=2.6
+# pypdf>=4.0
+# tiktoken>=0.6

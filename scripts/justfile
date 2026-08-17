@@ -1,0 +1,59 @@
+# =============================================================================
+# CylinderUI for Llama.cpp - justfile (https://github.com/casey/just)
+# -----------------------------------------------------------------------------
+# Cross-platform equivalent of the Makefile. `just` picks bash on macOS/Linux
+# and pwsh on Windows via the os() function.
+#
+#   just install [args]     full turn-key install + start
+#   just run                start services
+#   just stop               stop services
+#   just status             show status
+#   just update             idempotent update (pull/rebuild)
+#   just bench [model] [profile]
+#   just clean              stop + remove venv/vendor/run/logs (keeps models)
+# =============================================================================
+
+set windows-shell := ["pwsh", "-NoProfile", "-Command"]
+
+here := justfile_directory()
+
+default:
+    @just --list
+
+install *args:
+    #!/usr/bin/env bash
+    if [ "{{os()}}" = "windows" ]; then pwsh -File "{{here}}/install.ps1" {{args}}; \
+    else bash "{{here}}/install.sh" {{args}}; fi
+
+run:
+    #!/usr/bin/env bash
+    if [ "{{os()}}" = "windows" ]; then pwsh -File "{{here}}/install.ps1" -Action run; \
+    else bash "{{here}}/scripts/run.sh"; fi
+
+stop:
+    #!/usr/bin/env bash
+    if [ "{{os()}}" = "windows" ]; then pwsh -File "{{here}}/install.ps1" -Action stop; \
+    else bash "{{here}}/scripts/stop.sh"; fi
+
+status:
+    #!/usr/bin/env bash
+    if [ "{{os()}}" = "windows" ]; then pwsh -File "{{here}}/install.ps1" -Action status; \
+    else bash "{{here}}/scripts/status.sh"; fi
+
+update *args:
+    #!/usr/bin/env bash
+    export CYL_FORCE_REBUILD=1
+    if [ "{{os()}}" = "windows" ]; then pwsh -File "{{here}}/install.ps1" -Dev {{args}}; \
+    else bash "{{here}}/install.sh" --dev {{args}}; fi
+
+bench model="" profile="rapido":
+    #!/usr/bin/env bash
+    if [ "{{os()}}" = "windows" ]; then pwsh -File "{{here}}/scripts/bench.ps1" {{model}} {{profile}}; \
+    else bash "{{here}}/scripts/bench.sh" {{model}} {{profile}}; fi
+
+clean:
+    #!/usr/bin/env bash
+    if [ "{{os()}}" = "windows" ]; then pwsh -File "{{here}}/install.ps1" -Action stop; \
+    else bash "{{here}}/scripts/stop.sh"; fi
+    rm -rf "{{here}}/../.venv" "{{here}}/../vendor" "{{here}}/../run" "{{here}}/../logs"
+    echo "[ok] clean done (models kept)"

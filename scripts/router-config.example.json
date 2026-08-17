@@ -1,0 +1,44 @@
+{
+  "_note": "Example router-config.json for CylinderUI's router. Copy to router-config.json next to router.py. Every base_url is a PLACEHOLDER -- no real LAN host/IP is included. Delete the _disabled/_hint keys and replace <...> with your real values. NEVER commit real secrets; cloud api keys come from an env var (api_key_env), not from this file.",
+  "router_host": "0.0.0.0",
+  "router_port": 8088,
+  "llama_swap_url": "http://127.0.0.1:8080",
+  "default_model": "<your-default-model-id>",
+  "auto_names": true,
+  "routes": [
+    {
+      "_hint": "Keyword-based routing for /v1/chat/completions only.",
+      "name": "<route-name>",
+      "model": "<model-id-to-route-to>",
+      "priority": 1,
+      "patterns": ["<keyword-or-regex>"]
+    }
+  ],
+  "providers": [
+    {
+      "_disabled": true,
+      "_hint": "Ollama on the LAN. Default port 11434. tipo MUST be 'ollama'.",
+      "id": "ollama-lan",
+      "nome": "Ollama (LAN)",
+      "tipo": "ollama",
+      "base_url": "http://<YOUR-OLLAMA-HOST>:11434"
+    },
+    {
+      "_disabled": true,
+      "_hint": "vLLM / LM Studio / any OpenAI-compatible server.",
+      "id": "openai-compat-lan",
+      "nome": "OpenAI-compatible (LAN)",
+      "tipo": "openai-compat",
+      "base_url": "http://<YOUR-HOST>:8000"
+    },
+    {
+      "_disabled": true,
+      "_hint": "NOT IMPLEMENTED. Cloud routing needs real auth. api_key_env points at an env var (set in your local .env), never a hardcoded key.",
+      "id": "cloud-example",
+      "nome": "Cloud provider (example, disabled)",
+      "tipo": "openai-compat",
+      "base_url": "https://api.example-cloud-provider.invalid/v1",
+      "api_key_env": "CLOUD_PROVIDER_API_KEY"
+    }
+  ]
+}

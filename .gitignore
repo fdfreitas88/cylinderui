@@ -1,0 +1,23 @@
+# --- runtime data & secrets ---
+data/
+.env
+.localai-secrets/
+
+# --- backups & logs ---
+*.bak*
+*.log
+
+# --- python ---
+.venv/
+__pycache__/
+.pytest_cache/
+
+# --- node ---
+node_modules/
+
+# --- models ---
+models/
+*.gguf
+
+# --- os ---
+.DS_Store

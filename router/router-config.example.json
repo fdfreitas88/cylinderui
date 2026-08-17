@@ -1,0 +1,19 @@
+{
+  "router_host": "0.0.0.0",
+  "router_port": 8088,
+  "llama_swap_url": "http://127.0.0.1:8080",
+  "providers": [
+    {
+      "id": "local-llama",
+      "label": "Local (llama.cpp)",
+      "base_url": "http://127.0.0.1:8080/v1",
+      "api_key_env": ""
+    },
+    {
+      "id": "example-cloud",
+      "label": "Example Cloud Provider",
+      "base_url": "https://api.example.com/v1",
+      "api_key_env": "CLOUD_PROVIDER_API_KEY"
+    }
+  ]
+}
